@@ -1,0 +1,5 @@
+zenml["server"]
+pandas
+pyxlsb
+openpyxl
+scikit_learn
