@@ -4,6 +4,9 @@ from zenml import step
 from sklearn.base import ClassifierMixin
 from src.evaluation import F1Score, Accuracy, Recall, Precision
 from typing import Tuple, Annotated
+from zenml.client import Client
+experiment_tracker = Client().active_stack.experiment_tracker
+import mlflow
 
 @step
 def evaluate_model(model: ClassifierMixin, X_test: pd.DataFrame, y_test: pd.DataFrame) -> Tuple[Annotated[float, "accuracy"],
@@ -14,22 +17,23 @@ def evaluate_model(model: ClassifierMixin, X_test: pd.DataFrame, y_test: pd.Data
 
     # Calculate accuracy
     accuracy_class = Accuracy()
+
     accuracy = accuracy_class.calculate_scores(y_test, prediction)
-    logging.info(f"Accuracy: {accuracy}")
+    mlflow.log_metric("accuracy",accuracy)
 
     # Calculate recall
     recall_class = Recall()
     recall = recall_class.calculate_scores(y_test, prediction)
-    logging.info(f"Recall: {recall}")
+    mlflow.log_metric("recall",recall)
 
     # Calculate precision
     precision_class = Precision()
     precision = precision_class.calculate_scores(y_test, prediction)
-    logging.info(f"Precision: {precision}")
+    mlflow.log_metric("precision",precision)
 
     # Calculate F1 score
     f1_class = F1Score()
     f1 = f1_class.calculate_scores(y_test, prediction)
-    logging.info(f"F1 Score: {f1}")
+    mlflow.log_metric("f1",f1)
 
     return accuracy, recall, f1, precision

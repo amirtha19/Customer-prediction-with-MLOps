@@ -112,23 +112,4 @@ class DataCleaning:
         except Exception as e:
             logging.error("Error in handling data: {}".format(e))
             raise e
-if __name__ == "__main__":
-        excel_file = pd.ExcelFile("data\Banking Case - Data.xlsx")
-
-        # Get the names of all sheets in the Excel file
-        sheet_names = excel_file.sheet_names
-        # Create a dictionary to store DataFrames
-        dataframes = {sheet_name: excel_file.parse(sheet_name) for sheet_name in sheet_names}
-
-        # Access the DataFrames using their names
-        df_transaction = dataframes.get('Transaction Data')
-        df_demo = dataframes.get('Customer Demographics')
-        df = pd.merge(df_transaction,df_demo,on = "Customer_number")
-        csv_path = "data/merged_data.csv"
-        df.to_csv(csv_path, index=False)
-        process_strategy = DataPreProcessStrategy()
-        data_cleaning = DataCleaning(df, process_strategy)
-        processed_data = data_cleaning.handle_data()
-
-        divide_strategy = DataDivideStrategy()
 
