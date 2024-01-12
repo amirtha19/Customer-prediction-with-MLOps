@@ -18,7 +18,11 @@ class DataPreProcessStrategy(DataStrategy):
         try:
 
             # Drop unnecessary columns
+<<<<<<< HEAD
             data = data.drop(columns=["Sno", "Customer_number","balance"], errors='ignore')
+=======
+            data = data.drop(columns=["Sno", "Customer_number"], errors='ignore')
+>>>>>>> 657c1bf529173177957a36bef2e11ad6eca77ac2
 
             # Handle missing values and standardize 'contact' column
             data['contact'] = data['contact'].replace({'Mobile': 'cellular', 'Tel': 'telephone', '?': 'unknown'})
@@ -40,11 +44,23 @@ class DataPreProcessStrategy(DataStrategy):
             data['education'].replace('unknown', data['education'].mode()[0], inplace=True)
             data['education'].fillna(data['education'].mode()[0], inplace=True)
 
+<<<<<<< HEAD
             
 
 
 
 
+=======
+            # Standardize and handle outliers in 'balance' column
+            data['balance'] = pd.to_numeric(data['balance'], errors='coerce').fillna(0).astype(int)
+            data['balance'] = np.clip(data['balance'], data['balance'].quantile(0.25), data['balance'].quantile(0.75))
+
+            # Replace entire rows with 0 where 'balance' column contains '/' or '?'
+            data.loc[data['balance'].astype(str).str.contains(r'/|\?'), :] = 0
+
+            # Convert 'balance' column to integer
+            data['balance'] = data['balance'].astype(int)
+>>>>>>> 657c1bf529173177957a36bef2e11ad6eca77ac2
 
             # Handle missing values in 'duration' column using KNN imputer
             data['duration'] = data['duration'].abs()
@@ -83,7 +99,12 @@ class DataDivideStrategy(DataStrategy):
                 print("Target variable does not contain missing values")
 
             data.dropna(subset=['Term Deposit'], inplace=True)
+<<<<<<< HEAD
             X=data.drop(['Term Deposit'],axis=1)
+=======
+
+            X=data.drop(['Term Deposit','Annual Income'],axis=1)
+>>>>>>> 657c1bf529173177957a36bef2e11ad6eca77ac2
             # Remove rows with missing values in the target variable
             
 

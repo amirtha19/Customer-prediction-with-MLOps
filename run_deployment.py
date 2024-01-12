@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from typing import cast
 import click
 from pipelines.deployment_pipeline import (
@@ -17,10 +18,19 @@ from zenml.steps import BaseParameters,Output
 DEPLOY = "deploy"
 PREDICT = "predict"
 DEPLOY_AND_PREDICT = "deploy_and_predict"
+=======
+from pipelines.deployment_pipleine import deployment_pipeline, inference_pipeline
+import click
+
+DEPLOY = "deploy"
+PREDICT = "predict"
+DEPLOY_AND_PREDICT = "deploy and predict"
+>>>>>>> 657c1bf529173177957a36bef2e11ad6eca77ac2
 @click.command()
 @click.option(
     "--config",
     "-c",
+<<<<<<< HEAD
     type=click.Choice([DEPLOY, PREDICT, DEPLOY_AND_PREDICT]),
     default=DEPLOY_AND_PREDICT,
     help="Optionally you can choose to only run the deployment "
@@ -28,6 +38,15 @@ DEPLOY_AND_PREDICT = "deploy_and_predict"
     "only run a prediction against the deployed model "
     "(`predict`). By default both will be run "
     "(`deploy_and_predict`).",
+=======
+    type=click.Choice([DEPLOY,PREDICT,DEPLOY_AND_PREDICT])
+    DEFAULT=DEPLOY_AND_PREDICT,
+    help="Optionally you can choose to only run the deployment"
+    "pipeline to train and deploy a model ('deploy'), or to"
+    "only run a prediction against the deployed model"
+    "('predict).By default both will be run"
+    "('deploy_and_predict').",
+>>>>>>> 657c1bf529173177957a36bef2e11ad6eca77ac2
 )
 
 @click.option(
@@ -36,6 +55,7 @@ DEPLOY_AND_PREDICT = "deploy_and_predict"
     help="Minimum accuracy required to deploy the model",
 )
 
+<<<<<<< HEAD
 def run_deployment(config:str,min_accuracy:float):
     mlflow_model_deployer_component= MLFlowModelDeployer.get_active_model_deployer()
     deploy = config==DEPLOY or config ==DEPLOY_AND_PREDICT
@@ -91,3 +111,10 @@ def run_deployment(config:str,min_accuracy:float):
 
 if __name__ == "__main__":
     run_deployment()
+=======
+def run_deployment(confi:str,min_accuracy:float):
+    if deploy:
+        deployment_pipeline(min_accuracy)
+    if predict:
+        inference_pipeline(min_accuracy)
+>>>>>>> 657c1bf529173177957a36bef2e11ad6eca77ac2

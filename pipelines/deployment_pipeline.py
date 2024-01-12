@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+<<<<<<< HEAD
 from sklearn.impute import KNNImputer
 from typing import Union
 from sklearn.model_selection import train_test_split
@@ -18,6 +19,17 @@ from zenml.integrations.mlflow.services import MLFlowDeploymentService
 from zenml.integrations.mlflow.steps import mlflow_model_deployer_step
 from zenml.steps import BaseParameters,Output
 from .utils import get_data_for_test
+=======
+from zenml import pipeline,step
+from zenml.config import DockerSettings
+from materializer.custom_materializer import cs_materializer
+from zenml.constants import DEFAULT_SERVICE_START_STOP_TIMEOUT
+from zenml.integrations.constants import MLFLOW
+from zenml.integrations.mlflow.model_deployers.mlflow_model_deployer import(MLFLowModelDeployer,)
+from zenml.integrations.mlflow.services import MLFlowDeploymentService
+from zenml.integrations.mlflow.steps import mlflow_model_deployer_step
+from zenml.steps import BaseParameters,Output
+>>>>>>> 657c1bf529173177957a36bef2e11ad6eca77ac2
 
 from steps.clean_data import clean_df
 from steps.evaluation import evaluate_model
@@ -26,6 +38,7 @@ from steps.model_train import train_model
 
 docker_settings = DockerSettings(required_integrations=[MLFLOW])
 
+<<<<<<< HEAD
 requirements_file = os.path.join(os.path.dirname(__file__), "requirements.txt")
 
 @step(enable_cache=False)
@@ -164,10 +177,16 @@ def predictor(
 @pipeline(enable_cache=True,settings={"docker": docker_settings})
 def continuous_deployment_pipeline(
     data_path:str="data\data.xlsx",
+=======
+class DeploymentTriggerConfig(BaseParameters):
+@pipeline(enable_cache=True,settings={"docker_settings": docker_settings})
+def continuous_deployment_pipeline(
+>>>>>>> 657c1bf529173177957a36bef2e11ad6eca77ac2
     min_accuracy:float = 0.82,
     workers:int=1,
     timeout:int = DEFAULT_SERVICE_START_STOP_TIMEOUT,
 ):
+<<<<<<< HEAD
     df = ingest_df(data_path="data/data.xlsx")
     X_train, X_test,y_train,y_test = clean_df(df)
     model = train_model(X_train,X_test,y_train,y_test)
@@ -185,3 +204,11 @@ def inference_pipeline(pipeline_name: str, pipeline_step_name: str):
         running=False,
     )
     predictor(service=model_deployment_service, data=batch_data)
+=======
+    df = ingest_df()
+    X_train, X_test,y_train,y_test = clean_df(df)
+    model = train_model(X_train,X_test,y_train,y_test)
+    accuracy, recall, f1, precision = evaluate_model(model, X_test, y_test)
+    if accuracy > min_accuracy:
+
+>>>>>>> 657c1bf529173177957a36bef2e11ad6eca77ac2
