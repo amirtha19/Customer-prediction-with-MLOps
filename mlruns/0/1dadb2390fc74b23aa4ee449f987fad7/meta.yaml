@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/amirt/Downloads/MLOPs/mlruns/0/1dadb2390fc74b23aa4ee449f987fad7/artifacts
+end_time: 1704206840689
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1dadb2390fc74b23aa4ee449f987fad7
+run_name: suave-foal-809
+run_uuid: 1dadb2390fc74b23aa4ee449f987fad7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1704206838296
+status: 3
+tags: []
+user_id: amirt
